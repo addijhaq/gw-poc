@@ -6,7 +6,6 @@ import com.bcg.humana.gatewaypoc.proxies.Customer;
 import com.bcg.humana.gatewaypoc.proxies.CustomerServiceProxy;
 import com.bcg.humana.gatewaypoc.proxies.Order;
 import com.bcg.humana.gatewaypoc.proxies.OrderNotFoundException;
-//import com.bcg.humana.gatewaypoc.proxies.OrderServiceProxy;
 import com.bcg.humana.gatewaypoc.proxies.OrderServiceProxy;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -15,6 +14,7 @@ import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 
 public class OrderHandlers {
+
   private final OrderServiceProxy orderService;
   private final CustomerServiceProxy customerService;
 
@@ -27,7 +27,7 @@ public class OrderHandlers {
     String customerId = serverRequest.pathVariable("customerId");
     Mono<Order[]> orders = orderService.findOrdersByCustomerId(customerId);
     Mono<Customer> customer = customerService.findById(customerId);
-    Mono<Tuple2<Order[], Customer>> combined = Mono.zip(orders,customer);
+    Mono<Tuple2<Order[], Customer>> combined = Mono.zip(orders, customer);
 
     Mono<OrderDetails> orderDetails = combined.map(OrderDetails::makeOrderDetails);
 
