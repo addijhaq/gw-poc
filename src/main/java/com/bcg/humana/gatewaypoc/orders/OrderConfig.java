@@ -18,10 +18,11 @@ public class OrderConfig {
 
   @Bean
   public RouteLocator orderProxyRouting(RouteLocatorBuilder builder,
-      OrderDestinations destination) {
+      OrderDestinations destination, DigitalPharmacyDestinations digitalPharmacyDestinations) {
     return builder.routes()
         .route(r -> r.path("/orders/orderId/*").uri(destination.getOrderServiceUrl()))
         .route(r -> r.path("/customers/*").uri(destination.getCustomerServiceUrl()))
+            .route(r -> r.path("/prescriptions").uri(digitalPharmacyDestinations.getPrescriptionServiceUrl()))
         .build();
   }
 
